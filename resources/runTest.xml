@@ -1,0 +1,32 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Nop Commerce test" verbose="1">
+	<test name="Execute test on firefox">
+	<parameter name="browserName" value="firefox"></parameter>
+	<parameter name="environment" value="user"></parameter>
+		<classes>
+		 <class name="nopcommerce.user.Register"/>
+		 <class name="nopcommerce.user.Login"/>
+		 <class name="nopcommerce.user.MyAccount"/>	 		
+		 </classes>
+	</test>
+	
+	<!--<test name="Execute test on chrome">
+	<parameter name="browserName" value="chrome"></parameter>
+		<classes>
+		 <class name="nopcommerce.user.Register">
+		 </class>		 		
+		 </classes>
+	</test>
+	
+	<test name="Execute test on edge">
+	<parameter name="browserName" value="edge"></parameter>
+		<classes>
+		 <class name="nopcommerce.user.Register">
+		 </class>		 		
+		 </classes>
+	</test> -->
+
+
+
+</suite>
