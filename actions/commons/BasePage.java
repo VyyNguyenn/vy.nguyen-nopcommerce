@@ -121,7 +121,7 @@ public class BasePage {
 	
 	protected By getByLocator(String locatorType) {
 		By by = null;
-		System.out.println("Locator:" + locatorType);
+		//System.out.println("Locator:" + locatorType);
 		if (locatorType.toUpperCase().startsWith("ID")) {
 			by = By.id(locatorType.substring(3));
 		} else if(locatorType.toUpperCase().startsWith("CLASS")) {
