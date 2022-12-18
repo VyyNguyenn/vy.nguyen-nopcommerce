@@ -119,58 +119,48 @@ public class BasePage {
 		}
 	}
 	
-	protected By getByLocator(String locatorType) {
+	protected String getDynamicLocator(String locator, String... dynamicValue) {		
+		return	locator = String.format(locator, (Object[]) dynamicValue);		
+	}
+	
+	protected By getByLocator(String locatorWithType, String... dynamicValue) {
 		By by = null;
 		//System.out.println("Locator:" + locatorType);
-		if (locatorType.toUpperCase().startsWith("ID=")) {
-			by = By.id(locatorType.substring(3));
-		} else if(locatorType.toUpperCase().startsWith("CLASS=")) {
-			by = By.className(locatorType.substring(6));
-		} else if(locatorType.toUpperCase().startsWith("NAME=")) {
-			by = By.name(locatorType.substring(5));
-		} else if(locatorType.toUpperCase().startsWith("CSS=")) {
-			by = By.cssSelector(locatorType.substring(4));
-		}  else if(locatorType.toUpperCase().startsWith("XPATH=")) {
-			by = By.xpath(locatorType.substring(6));
+		locatorWithType = getDynamicLocator(locatorWithType, dynamicValue);
+		if (locatorWithType.toUpperCase().startsWith("ID=")) {
+			by = By.id(locatorWithType.substring(3));
+		} else if(locatorWithType.toUpperCase().startsWith("CLASS=")) {
+			by = By.className(locatorWithType.substring(6));
+		} else if(locatorWithType.toUpperCase().startsWith("NAME=")) {
+			by = By.name(locatorWithType.substring(5));
+		} else if(locatorWithType.toUpperCase().startsWith("CSS=")) {
+			by = By.cssSelector(locatorWithType.substring(4));
+		}  else if(locatorWithType.toUpperCase().startsWith("XPATH=")) {
+			by = By.xpath(locatorWithType.substring(6));
 		} else {
 			throw new RuntimeException("Locator Type is not supported!");
 		}
 		return by;
 	}
 	
-	protected String getDynamicLocator(String locator, String... dynamicValue) {		
-		return	locator = String.format(locator, (Object[]) dynamicValue);		
-	}
-	
 	protected WebElement getElement (WebDriver driver, String locator, String... dynamicValue) {
-		return driver.findElement(getByLocator(getDynamicLocator(locator, dynamicValue)));
+		return driver.findElement(getByLocator(locator, dynamicValue));
 	}
 	
 	protected List<WebElement> getListElement (WebDriver driver, String locator) {
 		return driver.findElements(getByLocator(locator));
 	}
 	
-	/*
-	 * protected void clickOnElement (WebDriver driver, String locator) {
-	 * getElement(driver, locator).click(); }
-	 */
-	
 	protected void clickOnElement (WebDriver driver, String locator, String... dynamicValue) {
 		getElement(driver, locator, dynamicValue).click();
-		System.out.println(getDynamicLocator(locator, dynamicValue));
 	}
 	
-	protected void clearTextbox (WebDriver driver, String locator) {
-		getElement(driver, locator).clear();
+	protected void clearTextbox (WebDriver driver, String locator, String... dynamicValue) {
+		getElement(driver, locator, dynamicValue).clear();
 	}	
 	
-	/*
-	 * protected String getElementText(WebDriver driver, String locator) { return
-	 * getElement(driver, locator).getText(); }
-	 */
-	
 	protected String getElementText(WebDriver driver, String locator, String... dynamicValue) {
-		return getElement(driver, getDynamicLocator(locator, dynamicValue)).getText();
+		return getElement(driver, locator, dynamicValue).getText();
 	}
 	
 	protected void sendkeyToElement (WebDriver driver, String locator, String keyword) {
@@ -336,17 +326,11 @@ public class BasePage {
 	}
 	
 	protected void waitForElementVisible(WebDriver driver, String locator, String... dynamicValue) {	
-		new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(getDynamicLocator(locator, dynamicValue))));
+		new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator, dynamicValue)));
 	}
 	
-	/*
-	 * protected void waitForElementClickable(WebDriver driver, String locator) {
-	 * new WebDriverWait(driver,
-	 * 20).until(ExpectedConditions.elementToBeClickable(getByLocator(locator))); }
-	 */
-	
 	protected void waitForElementClickable(WebDriver driver, String locator, String... dynamicValue) {	
-		new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(getByLocator(getDynamicLocator(locator, dynamicValue))));
+		new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(getByLocator(locator, dynamicValue)));
 	}
 	
 	protected void waitForElementInvisible(WebDriver driver, String locator) {	
